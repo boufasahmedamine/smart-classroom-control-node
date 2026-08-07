@@ -8,9 +8,10 @@ This document highlights some of the major stages of the development process and
 
 ## Early Hardware Prototyping
 
-![Early Prototype](images/early-prototype.jpg)
+![Early Prototype 1](images/early-prototype-1.jpg)
 
-*One of the early hardware prototypes used during system development.*
+![Early Prototype 2](images/early-prototype-2.jpg)
+
 
 Initial development focused on validating the core hardware components and establishing reliable communication between the ESP32, RFID readers, relay module, and supporting peripherals. Breadboards, perfboards, and temporary wiring arrangements were used extensively before assembling the final prototype.
 
