@@ -68,9 +68,6 @@ The current prototype is built around an ESP32-WROOM-32 microcontroller and inte
 | Push Buttons | Manual exit and lighting override |
 | Status LEDs | Visual system feedback |
 
-<p align="center">
-  <img src="docs/images/RDM6300.png" alt="Readers" width="800">
-</p>
 
 ## Software Architecture
 
