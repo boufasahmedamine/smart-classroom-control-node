@@ -94,7 +94,7 @@ Services                 Communication
 
 Each layer has a well-defined responsibility, reducing coupling between modules and making the firmware easier to maintain, test, and extend.
 
-## Repository Structure
+## Project Structure
 
 ```text
 .
