@@ -143,4 +143,4 @@ Academic Year: 2025–2026
 
 ## License
 
-This project is released under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is released under a License. See the [LICENSE](LICENSE) file for details.
