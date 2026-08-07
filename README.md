@@ -48,6 +48,10 @@ The Smart Classroom Control Node follows a distributed architecture in which eac
 
 The ESP32 acts as a lightweight edge controller. It reads sensors, controls actuators, publishes events through MQTT, and executes classroom automation logic. Decisions requiring centralized data—such as user authorization and attendance management—are handled by the server.
 
+<p align="center">
+  <img src="docs/images/electricaldiagram.png" alt="Wiring" width="800">
+</p>
+
 ## Hardware Overview
 
 The current prototype is built around an ESP32-WROOM-32 microcontroller and integrates the following hardware components:
@@ -62,6 +66,10 @@ The current prototype is built around an ESP32-WROOM-32 microcontroller and inte
 | LM2596 Buck Converter | 12V to 5V power regulation |
 | Push Buttons | Manual exit and lighting override |
 | Status LEDs | Visual system feedback |
+
+<p align="center">
+  <img src="docs/images/RDM6300.png" alt="Readers" width="800">
+</p>
 
 ## Software Architecture
 
