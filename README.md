@@ -128,6 +128,7 @@ Implemented features include:
 - Distributed client-server operation
 
 The repository will continue to receive documentation improvements and code cleanup over time.
+For additional information about the project design and deployment, see the documentation available in the [`docs`](docs/) directory.
 
 ## Authors
 
