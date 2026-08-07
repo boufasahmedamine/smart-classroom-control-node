@@ -3,7 +3,7 @@
 An ESP32-based IoT edge node for classroom access control, attendance tracking, and classroom automation through a distributed MQTT architecture.
 
 <p align="center">
-  <img src="docs/images/system-overview.png" alt="System Architecture" width="800">
+  <img src="docs/images/installedprototype.png" alt="Installed Prototype" width="800">
 </p>
 
 ## Overview
