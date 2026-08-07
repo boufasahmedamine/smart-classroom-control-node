@@ -13,7 +13,7 @@ The models do not represent every final implementation detail, as the project ev
   <img src="images/insideforwardshot.PNG" alt="insideforward" width="800">
 </p>
 <p align="center">
-  <img src="images/insidedoorshotoverall.PNG" alt="insidedoor" width="800">
+  <img src="images/insidedoorshotoverall.png" alt="insidedoor" width="800">
 </p>
 
 *Overview of the initial deployment concept for the first classroom layout.*
