@@ -111,7 +111,7 @@ Each layer has a well-defined responsibility, reducing coupling between modules 
 └── README.md
 ```
 
-The actual project code repository remains private for confidential and privacy reasons and it is structured as displayed above. The project is organized using a layered architecture to separate hardware access, application logic, communication, and system management. This structure simplifies maintenance and allows individual components to evolve independently.
+The project's source code is maintained in a separate private repository due to confidentiality and privacy considerations. The structure below reflects the organization of the firmware and supporting files used during development. The project is organized using a layered architecture to separate hardware access, application logic, communication, and system management. This structure simplifies maintenance and allows individual components to evolve independently.
 
 ## Project Status
 
