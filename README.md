@@ -1,6 +1,7 @@
 # Smart Classroom Control Node
 
 An ESP32-based IoT edge node for classroom access control, attendance tracking, and classroom automation through a distributed MQTT architecture.
+This repository serves as the public documentation for the Smart Classroom Control Node project, presenting its architecture, hardware design, implementation approach, and engineering decisions without exposing the private source code.
 
 <p align="center">
   <img src="docs/images/installedprototype.jpg" alt="Installed Prototype" width="800">
