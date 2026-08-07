@@ -25,6 +25,13 @@ The first classroom model was created to determine suitable locations for the ac
 ## Classroom Type 2
 
 ![Classroom Type 2](images/classroom-type-2-overview.png)
+<p align="center">
+  <img src="images/insideshotofoverallperspective.png" alt="class2inside" width="800">
+</p>
+<p align="center">
+  <img src="images/upwardsshotofsclassroom.png" alt="class2upward" width="800">
+</p>
+
 
 *Overview of the deployment concept for the second classroom layout.*
 
