@@ -103,7 +103,7 @@ Each layer has a well-defined responsibility, reducing coupling between modules 
 └── README.md
 ```
 
-The project is organized using a layered architecture to separate hardware access, application logic, communication, and system management. This structure simplifies maintenance and allows individual components to evolve independently.
+The actual project code repository remains private for confidential and privacy reasons and it is structured as displayed above. The project is organized using a layered architecture to separate hardware access, application logic, communication, and system management. This structure simplifies maintenance and allows individual components to evolve independently.
 
 ## Project Status
 
