@@ -10,10 +10,10 @@ The models do not represent every final implementation detail, as the project ev
 
 ![Classroom Type 1](images/classroom-type-1-overview.png)
 <p align="center">
-  <img src="docs/images/insidedoorshotoverall.png" width="800">
+  <img src="images/insidedoorshotoverall.png" width="800">
 </p>
 <p align="center">
-  <img src="docs/images/insidedoorshotoverall.PNG" width="800">
+  <img src="images/insidedoorshotoverall.PNG" width="800">
 </p>
 
 *Overview of the initial deployment concept for the first classroom layout.*
