@@ -1,11 +1,23 @@
+<div align="center">
+
 # Smart Classroom Control Node
 
-An ESP32-based IoT edge node for classroom access control, attendance tracking, and classroom automation through a distributed MQTT architecture.
-This repository serves as the public documentation for the Smart Classroom Control Node project, presenting its architecture, hardware design, implementation approach, and engineering decisions without exposing the private source code.
+**An ESP32-based IoT edge node for classroom access control, attendance tracking, and classroom automation through a distributed MQTT architecture.**
 
-<p align="center">
-  <img src="docs/images/installedprototype.jpg" alt="Installed Prototype" width="800">
-</p>
+<br>
+
+![ESP32](https://img.shields.io/badge/ESP32-WROOM--32-E7352C?style=for-the-badge&logo=espressif&logoColor=white)
+![PlatformIO](https://img.shields.io/badge/PlatformIO-Framework-FF7A00?style=for-the-badge&logo=platformio&logoColor=white)
+![MQTT](https://img.shields.io/badge/MQTT-Communication-660066?style=for-the-badge&logo=mqtt&logoColor=white)
+![FreeRTOS](https://img.shields.io/badge/FreeRTOS-Concurrency-00979D?style=for-the-badge&logo=freertos&logoColor=white)
+
+</div>
+
+---
+
+> **Public project documentation**
+>
+> The project's source code is maintained in a separate private repository due to confidentiality and privacy considerations. This repository presents the architecture, hardware design, implementation approach, and engineering decisions behind the project without exposing the private source code.
 
 ## Overview
 
@@ -26,39 +38,33 @@ Each classroom is equipped with an ESP32 controller that interfaces with local s
 - FreeRTOS-based task scheduling for responsive operation
 - Manual override controls for door access and lighting
 
-- ## System Architecture
+## System Architecture
 
 The Smart Classroom Control Node follows a distributed architecture in which each classroom is equipped with an independent ESP32-based control node. The node is responsible for interacting with local hardware, while a central server manages authorization, attendance records, and system supervision.
 
-```text
-                 MQTT over Wi-Fi
-+------------------------+        +------------------------------+
-|     Central Server     |<------>|  Smart Classroom Control Node|
-|------------------------|        |------------------------------|
-| • User Authorization   |        | • ESP32-WROOM-32             |
-| • Attendance Database  |        | • RFID Readers               |
-| • Event Logging        |        | • LD2410 Occupancy Sensor    |
-| • Classroom Management |        | • Relay Outputs              |
-+------------------------+        | • Local Automation           |
-                                  +--------------+---------------+
-                                                 |
-                       +-------------------------+------------------------+
-                       |             |           |                        |
-                 Door Lock       Lighting    Projector               Status LEDs
-```
+    MQTT over Wi-Fi
+    +------------------------+        +------------------------------+
+    |     Central Server     |<------>|  Smart Classroom Control Node|
+    |------------------------|        |------------------------------|
+    | • User Authorization   |        | • ESP32-WROOM-32             |
+    | • Attendance Database  |        | • RFID Readers               |
+    | • Event Logging        |        | • LD2410 Occupancy Sensor    |
+    | • Classroom Management |        | • Relay Outputs              |
+    +------------------------+        | • Local Automation           |
+                                      +--------------+---------------+
+                                                     |
+                           +-------------------------+------------------------+
+                           |             |           |                        |
+                     Door Lock       Lighting    Projector               Status LEDs
 
 The ESP32 acts as a lightweight edge controller. It reads sensors, controls actuators, publishes events through MQTT, and executes classroom automation logic. Decisions requiring centralized data—such as user authorization and attendance management—are handled by the server.
-
-<p align="center">
-  <img src="docs/images/electricaldiagram.png" alt="Wiring" width="800">
-</p>
 
 ## Hardware Overview
 
 The current prototype is built around an ESP32-WROOM-32 microcontroller and integrates the following hardware components:
 
 | Component | Purpose |
-|-----------|---------|
+|---|---|
 | ESP32-WROOM-32 | Main controller |
 | 2× RDM6300 RFID Readers | Access control and attendance tracking |
 | HLK-LD2410 mmWave Radar | Classroom occupancy detection |
@@ -68,50 +74,53 @@ The current prototype is built around an ESP32-WROOM-32 microcontroller and inte
 | Push Buttons | Manual exit and lighting override |
 | Status LEDs | Visual system feedback |
 
-
 ## Software Architecture
 
 The firmware follows a layered architecture to separate hardware access, business logic, communication, and system control.
 
-```text
-             Application
-                  │
-            System Layer
-                  │
-   ┌──────────────┴──────────────┐
-   │                             │
-Services                 Communication
-   │                             │
- Drivers                  Wi-Fi / MQTT
-   │
- Hardware Abstraction Layer
-   │
-          ESP32 Hardware
-```
+    Application
+         │
+    System Layer
+         │
+    ┌────┴──────────────────────┐
+    │                           │
+    Services              Communication
+    │                           │
+    Drivers                Wi-Fi / MQTT
+    │
+    Hardware Abstraction Layer
+    │
+    ESP32 Hardware
 
 Each layer has a well-defined responsibility, reducing coupling between modules and making the firmware easier to maintain, test, and extend.
 
 ## Project Structure
 
-```text
-.
-├── docs/                  # Project documentation
-├── include/               # Shared headers and configuration
-├── src/
-│   ├── communication/     # Wi-Fi and MQTT
-│   ├── config/            # System configuration
-│   ├── drivers/           # Hardware drivers
-│   ├── hal/               # Hardware abstraction layer
-│   ├── services/          # Business logic
-│   ├── system/            # State machine and scheduling
-│   └── main.cpp           # Application entry point
-├── platformio.ini
-└── README.md
-```
+    .
+    ├── docs/                  # Project documentation
+    ├── include/               # Shared headers and configuration
+    ├── src/
+    │   ├── communication/     # Wi-Fi and MQTT
+    │   ├── config/            # System configuration
+    │   ├── drivers/           # Hardware drivers
+    │   ├── hal/               # Hardware abstraction layer
+    │   ├── services/          # Business logic
+    │   ├── system/            # State machine and scheduling
+    │   └── main.cpp           # Application entry point
+    ├── platformio.ini
+    └── README.md
 
-The project's source code is maintained in a separate private repository due to confidentiality and privacy considerations. The structure below reflects the organization of the firmware and supporting files used during development. The project is organized using a layered architecture to separate hardware access, application logic, communication, and system management. This structure simplifies maintenance and allows individual components to evolve independently.
+The project's source code is maintained in a separate private repository due to confidentiality and privacy considerations. The structure above reflects the organization of the firmware and supporting files used during development.
+
+The project is organized using a layered architecture to separate hardware access, application logic, communication, and system management. This structure simplifies maintenance and allows individual components to evolve independently.
 
 ## Project Status
+
+<div align="center">
+
+### Functional Prototype
+
+</div>
 
 This project was developed as part of a Master's degree in Automation and Industrial Computing and has been validated as a functional prototype.
 
@@ -128,19 +137,21 @@ Implemented features include:
 - Distributed client-server operation
 
 The repository will continue to receive documentation improvements and code cleanup over time.
+
 For additional information about the project design and deployment, see the documentation available in the [`docs`](docs/) directory.
 
 ## Authors
 
-Developed by:
+<div align="center">
 
-- **Ahmed Amine Boufas**
-- **Mohamed El Mamoune Fedjekhi**
+**Ahmed Amine Boufas** · **Mohamed El Mamoune Fedjekhi**
 
 Master's Degree in Automation and Industrial Computing  
 Frères Mentouri Constantine 1 University  
 Academic Year: 2025–2026
 
+</div>
+
 ## License
 
-This project is released under a License. See the [LICENSE](LICENSE) file for details.
+This project is released under a custom license. See the [`LICENSE`](LICENSE) file for details.
