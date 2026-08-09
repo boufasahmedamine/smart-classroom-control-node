@@ -15,6 +15,16 @@
 
 ---
 
+<div align="center">
+
+![Installed Prototype](docs/images/installed-prototype.jpg)
+
+*Installed Smart Classroom Control Node prototype.*
+
+</div>
+
+---
+
 > **Public project documentation**
 >
 > The project's source code is maintained in a separate private repository due to confidentiality and privacy considerations. This repository presents the architecture, hardware design, implementation approach, and engineering decisions behind the project without exposing the private source code.
@@ -41,6 +51,12 @@ Each classroom is equipped with an ESP32 controller that interfaces with local s
 ## System Architecture
 
 The Smart Classroom Control Node follows a distributed architecture in which each classroom is equipped with an independent ESP32-based control node. The node is responsible for interacting with local hardware, while a central server manages authorization, attendance records, and system supervision.
+
+<div align="center">
+
+![System Overview](docs/images/system-overview.jpg)
+
+</div>
 
     MQTT over Wi-Fi
     +------------------------+        +------------------------------+
