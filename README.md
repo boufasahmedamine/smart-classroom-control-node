@@ -17,7 +17,7 @@
 
 <div align="center">
 
-![Installed Prototype](docs/images/installed-prototype.jpg)
+![Installed Prototype](docs/images/installedprototype.jpg)
 
 *Installed Smart Classroom Control Node prototype.*
 
