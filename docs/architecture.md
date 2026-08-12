@@ -39,6 +39,12 @@ Although both classrooms shared the same functional objectives, differences in t
 
 ---
 
+## Electrical Wiring
+<p align="center">
+  <img src="images/electricaldiagram.png" alt="elecdiag" width="800">
+</p>
+
+---
 ## Design Objectives
 
 The architectural planning phase focused on several practical goals:
