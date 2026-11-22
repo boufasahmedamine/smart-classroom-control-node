@@ -45,6 +45,16 @@ Although both classrooms shared the same functional objectives, differences in t
 </p>
 
 ---
+
+## Deterministic 7-State Operational FSM
+
+Node behavior is structured around seven discrete operational states (`BOOT`, `IDLE`, `WAITING_FOR_AUTH`, `ACCESS_GRANTED`, `OCCUPIED`, `OFFLINE`, and `ERROR`) running across dual-core FreeRTOS tasks (`Core 0` for Wi-Fi/MQTT networking; `Core 1` for RFID polling, state logic, and LD2410 presence sensing). In the field-deployed classrooms, lighting and projector controls remain electrically independent of the ESP32 node.
+
+<p align="center">
+  <img src="images/fsm-state-diagram.png" alt="Deterministic 7-State Operational FSM" width="900">
+</p>
+
+---
 ## Design Objectives
 
 The architectural planning phase focused on several practical goals:

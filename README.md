@@ -31,22 +31,21 @@
 
 ## Overview
 
-The Smart Classroom Control Node is an embedded system developed as part of a Master's project in Automation and Industrial Computing at Frères Mentouri Constantine 1 University. It is designed to modernize conventional classrooms by combining secure RFID-based access control, automated attendance tracking, occupancy-aware automation, and centralized monitoring.
+The Smart Classroom Control Node is an embedded system developed as part of a Master's project in Automation and Industrial Computing at Frères Mentouri Constantine 1 University. It is designed to modernize conventional classrooms by combining secure RFID-based access control, automated attendance tracking, mmWave occupancy telemetry, and centralized monitoring.
 
 Each classroom is equipped with an ESP32 controller that interfaces with local sensors and actuators while communicating with a central server over MQTT. The node is responsible for hardware control and event reporting, whereas authorization, attendance management, and long-term data storage are handled by the server. This separation keeps the firmware lightweight, modular, and easier to maintain while allowing multiple classroom nodes to be managed from a single backend.
 
 ## Features
 
-- RFID-based classroom access control using dual RDM6300 readers
-- RFID attendance tracking with server-side logging
-- Occupancy detection using the HLK-LD2410 mmWave radar sensor
-- Automatic lighting control based on classroom occupancy
-- Projector control through relay outputs
-- MQTT communication with a centralized server
-- Distributed edge-node architecture with server-side authorization
-- Layered firmware architecture for modularity and maintainability
-- FreeRTOS-based task scheduling for responsive operation
-- Manual override controls for door access and lighting
+- Stateless RFID-based classroom access control using dual RDM6300 UART readers (external access & internal attendance)
+- Independent RFID attendance tracking with server-side logging (internal scans never alter lock state)
+- Occupancy detection and telemetry using the HLK-LD2410 mmWave radar sensor
+- Relay-driven 12 V fail-safe magnetic door lock with timed unlock window and manual exit override
+- MQTT/JSON client–server communication with centralized server authorization (ArduinoJson v7)
+- Layered PlatformIO C/C++ firmware architecture for modularity and maintainability
+- Dual-core FreeRTOS task scheduling (Core 0 networking; Core 1 RFID, control & presence) with mutex protection
+- Deterministic 7-state non-blocking operational FSM with asynchronous auth timeouts, offline fail-secure handling, and watchdog recovery
+- *Deployment isolation note:* While early prototype revisions and compile-time firmware flags included relay hooks for classroom lighting and projector switching, **classroom lighting and projector controls remained electrically independent of the ESP32 node** in the deployed university installation (standalone PIR lighting / manual switchgear) for electrical safety and EMI isolation.
 
 ## System Architecture
 
@@ -62,33 +61,36 @@ The Smart Classroom Control Node follows a distributed architecture in which eac
     +------------------------+        +------------------------------+
     |     Central Server     |<------>|  Smart Classroom Control Node|
     |------------------------|        |------------------------------|
-    | • User Authorization   |        | • ESP32-WROOM-32             |
-    | • Attendance Database  |        | • RFID Readers               |
-    | • Event Logging        |        | • LD2410 Occupancy Sensor    |
-    | • Classroom Management |        | • Relay Outputs              |
-    +------------------------+        | • Local Automation           |
+    | • User Authorization   |        | • ESP32-WROOM-32 (Dual-Core) |
+    | • Attendance Database  |        | • 2× RDM6300 UART RFID       |
+    | • Event Logging        |        | • HLK-LD2410 mmWave Radar    |
+    | • Classroom Management |        | • Relay Stage & Safety Logic |
+    +------------------------+        | • Status LEDs & Exit Button  |
                                       +--------------+---------------+
                                                      |
                            +-------------------------+------------------------+
-                           |             |           |                        |
-                     Door Lock       Lighting    Projector               Status LEDs
+                           |                         |                        |
+                   12V Fail-Safe               Status LEDs              Auxiliary Relays
+                     Door Lock               & Exit Override        (Disabled in Deployment)*
 
-The ESP32 acts as a lightweight edge controller. It reads sensors, controls actuators, publishes events through MQTT, and executes classroom automation logic. Decisions requiring centralized data—such as user authorization and attendance management—are handled by the server.
+    *Lighting and projector controls remain electrically independent in the field-deployed classrooms.
+
+The ESP32 acts as a stateless edge controller. It reads sensors, drives the access lock actuator, publishes telemetry and events over MQTT, and reports classroom presence. Decisions requiring centralized data—such as user authorization and attendance management—are handled by the server.
 
 ## Hardware Overview
 
-The current prototype is built around an ESP32-WROOM-32 microcontroller and integrates the following hardware components:
+The field-validated prototype is built around an ESP32-WROOM-32 microcontroller and integrates the following hardware components:
 
 | Component | Purpose |
 |---|---|
-| ESP32-WROOM-32 | Main controller |
-| 2× RDM6300 RFID Readers | Access control and attendance tracking |
-| HLK-LD2410 mmWave Radar | Classroom occupancy detection |
-| 4-Channel Relay Module | Control of lighting, projector, and magnetic door lock |
-| 12V Magnetic Lock | Classroom door access control |
-| LM2596 Buck Converter | 12V to 5V power regulation |
-| Push Buttons | Manual exit and lighting override |
-| Status LEDs | Visual system feedback |
+| ESP32-WROOM-32 | Main dual-core controller (FreeRTOS) |
+| 2× RDM6300 RFID Readers | External access control & internal attendance tracking (UART1 / UART2) |
+| HLK-LD2410 mmWave Radar | Classroom occupancy presence sensing |
+| Opto-Isolated Relay Module | Drives 12 V fail-safe magnetic lock (auxiliary lighting/projector channels kept independent in deployment) |
+| 12 V Magnetic Lock | Fail-safe classroom door access control with flyback & EMI protection |
+| LM2596 Buck Converter | 12 V to 5 V power regulation |
+| Push Button | Manual classroom exit override |
+| Status LEDs | Visual access and system state feedback |
 
 ## Software Architecture
 
@@ -109,6 +111,18 @@ The firmware follows a layered architecture to separate hardware access, busines
     ESP32 Hardware
 
 Each layer has a well-defined responsibility, reducing coupling between modules and making the firmware easier to maintain, test, and extend.
+
+### Deterministic 7-State Operational FSM
+
+To prevent undefined actuator behavior across asynchronous RFID scans, MQTT latency, network drops, and hardware faults, node operation follows a deterministic **7-state non-blocking Finite State Machine** (`BOOT`, `IDLE`, `WAITING_FOR_AUTH`, `ACCESS_GRANTED`, `OCCUPIED`, `OFFLINE`, `ERROR`) synchronized with FreeRTOS mutexes (`xMutex_StateMachine`, `xMutex_MQTT`):
+
+<div align="center">
+
+![Deterministic 7-State FSM](docs/images/fsm-state-diagram.png)
+
+*Deterministic 7-state operational model of the Smart Classroom Control Node.*
+
+</div>
 
 ## Project Structure
 
@@ -138,19 +152,18 @@ The project is organized using a layered architecture to separate hardware acces
 
 </div>
 
-This project was developed as part of a Master's degree in Automation and Industrial Computing and has been validated as a functional prototype.
+This project was developed as part of a Master's degree in Automation and Industrial Computing and has been field-validated in two university classrooms.
 
-Implemented features include:
+Implemented and deployed features include:
 
-- RFID-based classroom access control
-- RFID attendance tracking
-- MQTT communication with a centralized server
-- Occupancy-aware lighting automation
-- Projector control
-- Magnetic door lock control
-- FreeRTOS-based firmware
-- Layered software architecture
-- Distributed client-server operation
+- Stateless RFID-based classroom access control (external RDM6300 reader)
+- Independent RFID attendance tracking (internal RDM6300 reader)
+- HLK-LD2410 mmWave room-presence sensing & telemetry
+- Relay-driven 12 V fail-safe magnetic door lock with flyback/EMI protection
+- MQTT/JSON communication with a centralized authorization server
+- Dual-core FreeRTOS firmware with mutex-protected shared state
+- Deterministic 7-state operational FSM with offline fail-secure & watchdog recovery
+- Layered PlatformIO C/C++ software architecture *(lighting & projector controls intentionally kept electrically independent in the deployed rooms)*
 
 The repository will continue to receive documentation improvements and code cleanup over time.
 

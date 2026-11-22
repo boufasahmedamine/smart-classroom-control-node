@@ -46,7 +46,7 @@ The control circuitry integrates the ESP32, relay module, power regulation hardw
 
 *Relay module used to interface the controller with external electrical loads.*
 
-The relay module provides electrical isolation between the ESP32 and higher-power classroom equipment, including lighting circuits, projector control, and the magnetic door lock.
+The relay module provides electrical isolation between the ESP32 and higher-power external loads. While early prototype iterations evaluated relay channels for auxiliary loads, in the field-deployed university classrooms the relay stage drives the 12 V fail-safe magnetic door lock (with flyback protection and EMI mitigation), while classroom lighting and projector controls remain electrically independent of the ESP32 node.
 
 ---
 
